@@ -4,7 +4,9 @@ include('./includes/db.php');
 <?php
 include('./includes/header.php');
 ?>
+<?php
 
+?>
 <!-- Navigation -->
 <?php
 include('./includes/navigation.php');
@@ -22,30 +24,39 @@ include('./includes/navigation.php');
                 <small>Secondary Text</small>
             </h1>
 
-            <?php 
-                $sql_post = "SELECT * FROM posts";
-                $result_post = $conn->query($sql_post);
+            <?php
 
-                if($result_post->num_rows>0){
-                    while($row = $result_post->fetch_array()){
-                        $short_content = substr($row['post_content'],0,75).'...';
-                        
+
+            if (isset($_POST['search'])) {
+                $data = $_POST['data'];
+
+                $sql_search = "SELECT * FROM posts WHERE post_tags LIKE '%$data%'";
+                $result_search = $conn->query($sql_search);
+
+                if ($result_search->num_rows > 0) {
+                    while ($row = $result_search->fetch_array()) {
+                        $short_content = substr($row['post_content'], 0, 75) . '...';
+
                         echo "<h2>
-                        <a href='#'>{$row['post_title']}</a>
-                    </h2>
-                    <p class='lead'>
-                        by <a href='index.php'>{$row['post_author']}</a>
-                    </p>
-                    <p><span class='glyphicon glyphicon-time'></span> Posted on {$row['post_date']}</p>
-                    <hr>
-                    <img class='img-responsive' src='./images/{$row['post_img']}' alt='{$row['post_img']}'>
-                    <hr>
-                    <p>{$short_content}</p>
-                    <a class='btn btn-primary' href='#'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
-        
-                    <hr>";
+            <a href='#'>{$row['post_title']}</a>
+        </h2>
+        <p class='lead'>
+            by <a href='index.php'>{$row['post_author']}</a>
+        </p>
+        <p><span class='glyphicon glyphicon-time'></span> Posted on {$row['post_date']}</p>
+        <hr>
+        <img class='img-responsive' src='./images/{$row['post_img']}' alt='{$row['post_img']}'>
+        <hr>
+        <p>{$short_content}</p>
+        <a class='btn btn-primary' href='#'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
+
+        <hr>";
                     }
+                } else {
+                    echo "<h2>Not found</h2>";
                 }
+            }
+
             ?>
 
             <!-- First Blog Post -->
@@ -59,12 +70,14 @@ include('./includes/navigation.php');
             <hr>
             <img class="img-responsive" src="http://placehold.it/900x300" alt="">
             <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus
+                inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum
+                officiis rerum.</p>
             <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             <hr>
 
-            
+
 
             <!-- Pager -->
             <ul class="pager">
@@ -80,8 +93,8 @@ include('./includes/navigation.php');
 
         <!-- Blog Sidebar Widgets Column -->
         <?php
-    include('./includes/sidebar.php');
-    ?>
+        include('./includes/sidebar.php');
+        ?>
     </div>
     <!-- /.row -->
 

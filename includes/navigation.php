@@ -16,6 +16,26 @@
                 <li>
                     <a href="#">About</a>
                 </li>
+
+
+                <?php 
+                
+                    $sql = "SELECT * FROM categories";
+                    $result = $conn->query($sql);
+
+                    if($result->num_rows>0){
+                        while($row = $result->fetch_array()){
+                           echo "<li>
+                           <a href='#'>{$row['cat_title']}</a>
+                       </li>";
+                        }
+                    }
+                    else{
+                        echo '';
+                    }
+                ?>
+
+
                 <li>
                     <a href="#">Services</a>
                 </li>
