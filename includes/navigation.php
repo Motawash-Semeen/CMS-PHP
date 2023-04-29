@@ -24,10 +24,14 @@
                     $result = $conn->query($sql);
 
                     if($result->num_rows>0){
+                        $i=0;
                         while($row = $result->fetch_array()){
-                           echo "<li>
+                            if($i<4){
+                              echo "<li>
                            <a href='#'>{$row['cat_title']}</a>
-                       </li>";
+                       </li>";  
+                            }
+                            $i++;
                         }
                     }
                     else{
@@ -38,6 +42,9 @@
 
                 <li>
                     <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="admin/index.php">Admin</a>
                 </li>
                 <li>
                     <a href="#">Contact</a>
