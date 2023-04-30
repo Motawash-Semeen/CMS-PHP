@@ -38,7 +38,7 @@ if ($result_cate->num_rows > 0) {
 
 
         if ($i < 4) {
-            echo "<li><a href='#'>{$row['cat_title']}</a>";
+            echo "<li><a href='category.php?id={$row['cat_id']}'>{$row['cat_title']}</a>";
         }
 
         $i++;
@@ -62,7 +62,7 @@ if ($result_cate->num_rows > 0) {
 
 
         if ($i > 3 and $i < 8) {
-            echo "<li><a href='#'>{$row['cat_title']}</a>";
+            echo "<li><a href='category.php?id={$row['cat_id']}'>{$row['cat_title']}</a>";
         }
 
         $i++;

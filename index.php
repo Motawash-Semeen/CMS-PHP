@@ -31,17 +31,17 @@ include('./includes/navigation.php');
                         $short_content = substr($row['post_content'],0,75).'...';
                         
                         echo "<h2>
-                        <a href='#'>{$row['post_title']}</a>
+                        <a href='post.php?id={$row['post_id']}'>{$row['post_title']}</a>
                     </h2>
                     <p class='lead'>
                         by <a href='index.php'>{$row['post_author']}</a>
                     </p>
                     <p><span class='glyphicon glyphicon-time'></span> Posted on {$row['post_date']}</p>
                     <hr>
-                    <img class='img-responsive' src='./images/{$row['post_img']}' alt='{$row['post_img']}'>
+                    <img class='img-responsive' src='./admin/images/{$row['post_img']}' alt='{$row['post_img']}' width='900' height='300'>
                     <hr>
                     <p>{$short_content}</p>
-                    <a class='btn btn-primary' href='#'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
+                    <a class='btn btn-primary' href='post.php?id={$row['post_id']}'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
         
                     <hr>";
                     }

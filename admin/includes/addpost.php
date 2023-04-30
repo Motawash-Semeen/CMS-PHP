@@ -54,7 +54,7 @@ if (isset($_POST['insert'])) {
             </div>
             <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
                 <label for="inlineFormInput">Date</label>
-                <input type="date" class="form-control mb-2" name="date" placeholder="">
+                <input type="date" class="form-control mb-2" name="date" value="<?php echo date('Y-m-d') ?>">
             </div>
             <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
                 <label for="cars">Category:</label>

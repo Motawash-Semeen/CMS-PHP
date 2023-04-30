@@ -5,7 +5,13 @@ include('./includes/db.php');
 include('./includes/header.php');
 ?>
 <?php
-
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $sql_cate = "SELECT * FROM categories WHERE cat_id = '$id'";
+    $result_cate = $conn->query($sql_cate);
+    $data = $result_cate->fetch_array();
+}
+  
 ?>
 <!-- Navigation -->
 <?php
@@ -20,17 +26,17 @@ include('./includes/navigation.php');
         <div class="col-md-8">
 
             <h1 class="page-header">
-                Search
+                <?php echo $data['cat_title']; ?>
                 <small>Secondary Text</small>
             </h1>
 
             <?php
 
 
-            if (isset($_POST['search'])) {
-                $data = $_POST['data'];
+            if (isset($_GET['id'])) {
+                $cat_id = $_GET['id'];
 
-                $sql_search = "SELECT * FROM posts WHERE post_tags LIKE '%$data%'";
+                $sql_search = "SELECT * FROM posts WHERE post_cat_id = '$cat_id'";
                 $result_search = $conn->query($sql_search);
 
                 if ($result_search->num_rows > 0) {

@@ -1,4 +1,7 @@
 <!-- PHP & MYSQL CODE FOR DELETE A ROW -->
+<?php
+include "../includes/db.php";
+?>
 <?php 
 if(isset($_GET['source']) and $_GET['source']=='delete'){
     $id = $_GET['id'];
