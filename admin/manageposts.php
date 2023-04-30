@@ -1,3 +1,14 @@
+<!-- PHP & MYSQL CODE FOR DELETE A ROW -->
+<?php 
+if(isset($_GET['source']) and $_GET['source']=='delete'){
+    $id = $_GET['id'];
+    $sql_del = "DELETE FROM posts WHERE post_id = '$id'";
+    $conn->query($sql_del);
+    header("Location: manageposts.php");
+}
+?>
+
+
 <?php
 include('includes/header.php');
 ?>
@@ -33,31 +44,36 @@ include('includes/header.php');
                 </div>
             </div>
             <!-- /.row -->
-            <?php 
-                //include "./includes/showpost.php";
-            ?>
-             <div class="row ">
+            <?php
+            //include "./includes/showpost.php";
+            //include "./includes/addpost.php";
+            //include "./includes/updatepost.php";
 
-            <form action="" method="post" class="col-lg-6 col-lg-offset-3">
-                <div class="form-row align-items-center ">
-                    <div class="col-auto col-lg-12 mb-2">
-                        <label  for="inlineFormInput">Post Title</label>
-                        <input type="text" class="form-control mb-2" name="cat_name" id="inlineFormInput" placeholder="Post Title">
-                    </div>
-                    <div class="col-auto col-lg-6 mb-2">
-                        <label  for="inlineFormInput">Author Name</label>
-                        <input type="text" class="form-control mb-2" name="cat_name" id="inlineFormInput" placeholder="Author Name">
-                    </div>
-                    <div class="col-auto col-lg-6 mb-2">
-                        <label  for="inlineFormInput">Post Title</label>
-                        <input type="text" class="form-control mb-2" name="cat_name" id="inlineFormInput" placeholder="Post Title">
-                    </div>
-                    <div class="col-lg-4">
-                        <button type="submit" name="submit" class="btn btn-primary mb-2">Submit</button>
-                    </div>
-                </div>
-            </form>
-            </div>
+             if(isset($_GET['source'])){
+                    $source = $_GET['source'];
+                }
+                else{
+                    $source = ""; 
+                }
+                switch($source){
+                    case 'new':
+                        include "./includes/addpost.php";
+                    break;
+                    case 'edit':
+                        include "./includes/updatepost.php";
+                    break;
+                    case 'delete':
+                        
+                    break;
+                    default:
+                    include "./includes/showpost.php";
+                    break;
+                }
+            ?>
+
+            
+
+
         </div>
         <!-- /#page-wrapper -->
 
