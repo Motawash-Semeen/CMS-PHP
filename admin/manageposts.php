@@ -60,16 +60,16 @@ include('includes/header.php');
                 }
                 switch($source){
                     case 'new':
-                        include "./includes/addpost.php";
+                        include "./includes/posts/addpost.php";
                     break;
                     case 'edit':
-                        include "./includes/updatepost.php";
+                        include "./includes/posts/updatepost.php";
                     break;
                     case 'delete':
                         
                     break;
                     default:
-                    include "./includes/showpost.php";
+                    include "./includes/posts/showpost.php";
                     break;
                 }
             ?>

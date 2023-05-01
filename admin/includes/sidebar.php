@@ -19,7 +19,7 @@
             <a href="categories:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-arrows-v"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo2" class="collapse">
                 <li>
-                    <a href="addcate.php">Add Categories</a>
+                    <a href="managecate.php?do=new">Add Categories</a>
                 </li>
                 <li>
                     <a href="managecate.php">Manage Categories</a>

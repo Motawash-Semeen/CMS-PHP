@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12" >
+    <div class="col-md-12">
         <div style="text-align:right; margin:auto;">
             <a href='manageposts.php?source=new' class='btn btn-link btn-warning btn-just-icon edit' style="padding: 6px 12px; background-color:deepskyblue; border-radius: 5px; color:white; margin-bottom: 20px;">
                 Add New Post
@@ -24,8 +24,8 @@
             </thead>
             <tbody>
 
-            <!-- PHP & MYSQL CODE FOR SHOWING ALL DATA -->
-            
+                <!-- PHP & MYSQL CODE FOR SHOWING ALL DATA -->
+
                 <?php
                 $sql_post = "SELECT * FROM posts";
                 $result_post = $conn->query($sql_post);
@@ -67,7 +67,7 @@
                                 </tr>";
                 }
                 ?>
-                
+
             </tbody>
         </table>
 
