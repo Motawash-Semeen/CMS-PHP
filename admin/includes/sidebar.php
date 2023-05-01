@@ -38,7 +38,7 @@
             </ul>
         </li>
         <li>
-            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Comments </a>
+            <a href="managecomments.php"><i class="fa fa-fw fa-desktop"></i> Comments </a>
         </li>
         <li>
             <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Profile </a>
