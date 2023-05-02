@@ -30,10 +30,10 @@
             <a href="users:;" data-toggle="collapse" data-target="#demo3"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo3" class="collapse">
                 <li>
-                    <a href="#">Add Users</a>
+                    <a href="manageuser.php">Add Users</a>
                 </li>
                 <li>
-                    <a href="#">Manage Users</a>
+                    <a href="manageuser.php">Manage Users</a>
                 </li>
             </ul>
         </li>
@@ -41,7 +41,7 @@
             <a href="managecomments.php"><i class="fa fa-fw fa-desktop"></i> Comments </a>
         </li>
         <li>
-            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Profile </a>
+            <a href="profile.php"><i class="fa fa-fw fa-wrench"></i> Profile </a>
         </li>
     </ul>
 </div>

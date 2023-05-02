@@ -1,6 +1,3 @@
-<?php
-
-?>
 
 <div class="col-md-4">
 
@@ -15,6 +12,30 @@
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </span>
+            </div>
+        </form>
+        <!-- /.input-group -->
+    </div>
+
+    <!-- LOGIN Well -->
+    <div class="well">
+        <h4>LogIn</h4>
+<?php 
+
+if(isset($_SESSION['msg'])){
+    $msg = $_SESSION['msg'];
+    echo "<h4 style='color:red;'>{$msg}</h4>";
+}
+?>
+        <form action="includes/login.php" method="post">
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="login" class="form-control btn btn-info" value="LogIn">
             </div>
         </form>
         <!-- /.input-group -->

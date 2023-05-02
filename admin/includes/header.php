@@ -1,11 +1,26 @@
+
+
 <?php 
 include('../includes/db.php');
-
+session_start();
 ?>
 <?php 
 ob_start();
 ?>
 
+<?php 
+$email = $_SESSION['email'];
+$id = $_SESSION['id'];
+$role = $_SESSION['role'];
+if(($email && $id)==null){
+    header("Location: ../index.php");
+}
+else{
+    if($role=='user'){
+        header("Location: ../index.php");
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

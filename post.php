@@ -10,118 +10,148 @@ include('./includes/header.php');
 include('./includes/navigation.php');
 ?>
 
-<?php 
+<?php
 
-    if(isset($_GET['id'])){
-        $id = $_GET['id'];
-        $sql = "SELECT * FROM posts WHERE post_id = '$id'";
-        $result = $conn->query( $sql);
-        $v = $result->fetch_array();
-    }
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM posts WHERE post_id = '$id'";
+    $result = $conn->query($sql);
+    $v = $result->fetch_array();
+}
 
 ?>
-    <!-- Page Content -->
-    <div class="container">
+<!-- Page Content -->
+<div class="container">
 
-        <div class="row">
+    <div class="row">
 
-            <!-- Blog Post Content Column -->
-            <div class="col-lg-8">
+        <!-- Blog Post Content Column -->
+        <div class="col-lg-8">
 
-                <!-- Blog Post -->
+            <!-- Blog Post -->
 
-                <!-- Title -->
-                <h1><?php echo $v['post_title'] ?></h1>
+            <!-- Title -->
+            <h1><?php echo $v['post_title'] ?></h1>
 
-                <!-- Author -->
-                <p class="lead">
-                    by <a href="#"><?php echo $v['post_author'] ?></a>
-                </p>
+            <!-- Author -->
+            <p class="lead">
+                by <a href="#"><?php echo $v['post_author'] ?></a>
+            </p>
 
-                <hr>
+            <hr>
 
-                <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $v['post_date'] ?></p>
+            <!-- Date/Time -->
+            <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $v['post_date'] ?></p>
 
-                <hr>
+            <hr>
 
-                <!-- Preview Image -->
-                <img class="img-responsive" src="./admin/images/<?php echo $v['post_img'] ?>" alt="" style="width: 100%">
+            <!-- Preview Image -->
+            <img class="img-responsive" src="./admin/images/<?php echo $v['post_img'] ?>" alt="" style="width: 100%">
 
-                <hr>
+            <hr>
 
-                <!-- Post Content -->
-                <p class="lead"><?php echo $v['post_content'] ?></p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+            <!-- Post Content -->
+            <p class="lead"><?php echo $v['post_content'] ?></p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
 
-                <hr>
+            <hr>
 
-                <!-- Blog Comments -->
+            <!-- Blog Comments -->
 
-                <!-- Comments Form -->
-                <div class="well">
-                    <h4>Leave a Comment:</h4>
-                    <form role="form">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+            <?php
 
-                <hr>
+            if (isset($_POST['add'])) {
+                $post_id = $v['post_id'];
+                $name = $_POST['comment_author'];
+                $email = $_POST['comment_email'];
+                $content = $_POST['content'];
+                $date = date('Y-m-d');
 
-                <!-- Posted Comments -->
+                $name = mysqli_real_escape_string($conn, $name);
+                $email = mysqli_real_escape_string($conn, $email);
+                $content = mysqli_real_escape_string($conn, $content);
 
-                <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                $sql_com = "INSERT INTO comments (`com_post_id`, `com_author`, `com_email`, `com_content`, `com_date`) VALUES ('$post_id','$name','$email','$content','$date')";
+                $result_com = $conn->query($sql_com);
+
+                $com_count = "UPDATE `posts` SET `post_comment`= post_comment+1 WHERE `post_id`='$post_id'";
+                $conn->query($com_count);
+
+                echo "<h2>Comments Sent For Approval!!</h2>";
+            }
+            ?>
+
+            <!-- Comments Form -->
+            <div class="well">
+                <h4>Leave a Comment:</h4>
+                <form role="form" action="" method="post">
+                    <div class="form-group">
+                        <label for="Author">Name</label>
+                        <input type="text" class="form-control" name="comment_author">
                     </div>
-                </div>
-
-                <!-- Comment -->
-                <div class="media">
-                    <a class="pull-left" href="#">
-                        <img class="media-object" src="http://placehold.it/64x64" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h4 class="media-heading">Start Bootstrap
-                            <small>August 25, 2014 at 9:30 PM</small>
-                        </h4>
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        <!-- Nested Comment -->
-                        <div class="media">
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="http://placehold.it/64x64" alt="">
-                            </a>
-                            <div class="media-body">
-                                <h4 class="media-heading">Nested Start Bootstrap
-                                    <small>August 25, 2014 at 9:30 PM</small>
-                                </h4>
-                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                            </div>
-                        </div>
-                        <!-- End Nested Comment -->
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" class="form-control" name="comment_email">
                     </div>
-                </div>
-
+                    <div class="form-group">
+                        <label for="Author">Your Comments</label>
+                        <textarea class="form-control" rows="3" name="content"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="add">Submit</button>
+                </form>
             </div>
 
-            <!-- Blog Sidebar Widgets Column -->
-                    <!-- Blog Sidebar Widgets Column -->
+            <hr>
+
+            <!-- Posted Comments -->
+            <div class="well">
+                <h3>Total Comments: <?php echo $v['post_comment']?></h3>
+            <?php 
+                $id = $_GET['id'];
+                $sql_com_view = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
+                $res_com_view = $conn->query($sql_com_view);
+                if( $res_com_view->num_rows>0){
+                    while($data = $res_com_view->fetch_array()){
+                        echo "<div class='media'>
+                        <a class='pull-left' href='#'>
+                            <img class='media-object' src='http://placehold.it/64x64' alt=''>
+                        </a>
+                        <div class='media-body'>
+                            <h4 class='media-heading'>{$data['com_author']}
+                                <small>{$data['com_date']}</small>
+                            </h4>
+                            {$data['com_content']}
+                        </div>
+                    </div>";
+                    }
+                }
+                
+
+?>
+</div>
+            <!-- Comment -->
+            <!-- <div class="media">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="http://placehold.it/64x64" alt="">
+                </a>
+                <div class="media-body">
+                    <h4 class="media-heading">Start Bootstrap
+                        <small>August 25, 2014 at 9:30 PM</small>
+                    </h4>
+                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                </div>
+            </div> -->
+
+        </div>
+
+        <!-- Blog Sidebar Widgets Column -->
+        <!-- Blog Sidebar Widgets Column -->
         <?php
-    include('./includes/sidebar.php');
-    ?>
+        include('./includes/sidebar.php');
+        ?>
     </div>
     <!-- /.row -->
 

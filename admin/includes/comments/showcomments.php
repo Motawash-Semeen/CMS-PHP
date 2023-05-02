@@ -1,10 +1,9 @@
-<?php 
-if(isset($_GET['status'])){
+<?php
+if (isset($_GET['status'])) {
     $id = $_GET['id'];
-    if($_GET['status']=='approved'){
+    if ($_GET['status'] == 'approved') {
         $satus = 'disapproved';
-    }
-    else{
+    } else {
         $satus = 'approved';
     }
     $sql_status = "UPDATE comments SET com_status = '$satus' WHERE com_id = '$id'";
@@ -54,7 +53,8 @@ if(isset($_GET['status'])){
                                                 <td>{$row['com_author']}</td>
                                                 <td>{$row['com_email']}</td>
                                                 <td>{$row['com_content']}</td>
-                                                <td>{$post_title['post_title']}</td>
+                                                <td><a href='../post.php?id={$post_id}'>{$post_title['post_title']}</a>
+                                                </td>
                                                 <td>{$row['com_date']}</td>
                                                 <td>
                                                 <a href='managecomments.php?id={$row['com_id']}&status={$row['com_status']}' class='btn btn-info'>
