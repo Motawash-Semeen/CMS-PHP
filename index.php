@@ -9,6 +9,8 @@ include('./includes/header.php');
 include('./includes/navigation.php');
 ?>
 
+
+
 <!-- PAGINATION PHP -->
 <?php
 if (isset($_GET['page'])) {
