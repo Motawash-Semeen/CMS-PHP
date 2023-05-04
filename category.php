@@ -13,6 +13,28 @@ if(isset($_GET['cat_id'])){
 }
   
 ?>
+
+
+<!-- PAGINATION PHP -->
+<?php
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = "";
+}
+if ($page == "" || $page == 1) {
+    $page_1 = 0;
+} else {
+    $page_1 = ($page * 5) - 5;
+}
+?>
+<?php
+$sql_count = "SELECT * FROM posts WHERE post_status = 'active' AND post_cat_id = '$id'";
+$result_count = $conn->query($sql_count);
+$count = mysqli_num_rows($result_count);
+$count = ceil($count / 5);
+?>
+
 <!-- Navigation -->
 <?php
 include('./includes/navigation.php');
@@ -31,12 +53,10 @@ include('./includes/navigation.php');
             </h1>
 
             <?php
-
-
             if (isset($_GET['cat_id'])) {
                 $cat_id = $_GET['cat_id'];
 
-                $sql_search = "SELECT * FROM posts WHERE post_cat_id = '$cat_id' AND post_status = 'active'";
+                $sql_search = "SELECT * FROM posts WHERE post_cat_id = '$cat_id' AND post_status = 'active' LIMIT $page_1, 5";
                 $result_search = $conn->query($sql_search);
 
                 if ($result_search->num_rows > 0) {
@@ -84,17 +104,17 @@ include('./includes/navigation.php');
 
             <hr> -->
 
-
-
             <!-- Pager -->
-            <ul class="pager">
-                <li class="previous">
-                    <a href="#">&larr; Older</a>
-                </li>
-                <li class="next">
-                    <a href="#">Newer &rarr;</a>
-                </li>
-            </ul>
+            <div>
+                <ul class="pagination justify-content-end">
+                    <!-- <li class="active"><a href="#">2</a></li> -->
+                    <?php
+                    for ($i = 1; $i <= $count; $i++) {
+                        echo " <li><a href='category.php?page=$i&cat_id=$id'>$i</a></li>";
+                    }
+                    ?>
+                </ul>
+            </div>
 
         </div>
 

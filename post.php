@@ -17,11 +17,17 @@ if (isset($_GET['p_id'])) {
     $sql = "SELECT * FROM posts WHERE post_id = '$id'";
     $result = $conn->query($sql);
     $v = $result->fetch_array();
-    $view = "UPDATE posts SET post_views = post_views+1 WHERE post_id = '$id'";
-    $conn->query($view);
-    $error_msg=null;
-}
-else{
+    // $view = "UPDATE posts SET post_views = post_views+1 WHERE post_id = '$id'";
+    // $conn->query($view);
+    //$count_com = 0;
+    $error_msg = 0;
+
+    $com_count = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
+    $res_count = $conn->query($com_count);
+    $count_com = mysqli_num_rows($res_count);
+
+    $links = "authorposts.php?author={$v['post_author']}&p_id={$v['post_id']}";
+} else {
     header("Location: index.php");
 }
 
@@ -41,7 +47,7 @@ else{
 
             <!-- Author -->
             <p class="lead">
-                by <a href="#"><?php echo $v['post_author'] ?></a>
+                by <a href="<?php echo $links; ?>"><?php echo $v['post_author'] ?></a>
             </p>
 
             <hr>
@@ -70,6 +76,7 @@ else{
             <?php
 
             if (isset($_POST['add'])) {
+                $id = $_GET['p_id'];
                 $post_id = $v['post_id'];
                 $name = $_POST['comment_author'];
                 $email = $_POST['comment_email'];
@@ -79,19 +86,15 @@ else{
                 $name = mysqli_real_escape_string($conn, $name);
                 $email = mysqli_real_escape_string($conn, $email);
                 $content = mysqli_real_escape_string($conn, $content);
-                
-                if($name == '' and $email == '' and  $content == ''){
-                    $error_msg='Please Input all required fields!!';
-                }
-                else{
-                    $sql_com = "INSERT INTO comments (`com_post_id`, `com_author`, `com_email`, `com_content`, `com_date`) VALUES ('$post_id','$name','$email','$content','$date')";
-                $result_com = $conn->query($sql_com);
-                $com_count = "UPDATE `posts` SET `post_comment`= post_comment+1 WHERE `post_id`='$post_id'";
-                $conn->query($com_count);
-                $error_msg=null;
-                echo "<h2>Comments Sent For Approval!!</h2>";
-                }
 
+                if ($name == '' and $email == '' and  $content == '') {
+                    $error_msg = 'Please Input all required fields!!';
+                } else {
+                    $sql_com = "INSERT INTO comments (`com_post_id`, `com_author`, `com_email`, `com_content`, `com_date`) VALUES ('$post_id','$name','$email','$content','$date')";
+                    $result_com = $conn->query($sql_com);
+                    $error_msg = null;
+                    echo "<h2>Comments Sent For Approval!!</h2>";
+                }
             }
             ?>
 
@@ -99,8 +102,8 @@ else{
             <div class="well">
                 <h4>Leave a Comment:</h4>
                 <h3 style='color:red; text-align:center;'>
-                <?php echo $error_msg != null ?  $error_msg:'' ?>
-            </h3>
+                    <?php echo $error_msg != null ?  $error_msg : '' ?>
+                </h3>
                 <form role="form" action="" method="post">
                     <div class="form-group">
                         <label for="Author">Name *</label>
@@ -122,13 +125,13 @@ else{
 
             <!-- Posted Comments -->
             <div class="well">
-                <h3>Total Comments: <?php echo $v['post_comment']?></h3>
-            <?php 
+                <h3>Total Comments: <?php echo  $count_com ?></h3>
+                <?php
                 $id = $_GET['p_id'];
                 $sql_com_view = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
                 $res_com_view = $conn->query($sql_com_view);
-                if( $res_com_view->num_rows>0){
-                    while($data = $res_com_view->fetch_array()){
+                if ($res_com_view->num_rows > 0) {
+                    while ($data = $res_com_view->fetch_array()) {
                         echo "<div class='media'>
                         <a class='pull-left' href='#'>
                             <img class='media-object' src='http://placehold.it/64x64' alt=''>
@@ -142,22 +145,9 @@ else{
                     </div>";
                     }
                 }
-                
+                ?>
+            </div>
 
-?>
-</div>
-            <!-- Comment -->
-            <!-- <div class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="http://placehold.it/64x64" alt="">
-                </a>
-                <div class="media-body">
-                    <h4 class="media-heading">Start Bootstrap
-                        <small>August 25, 2014 at 9:30 PM</small>
-                    </h4>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-            </div> -->
 
         </div>
 

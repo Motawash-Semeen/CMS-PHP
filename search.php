@@ -4,8 +4,33 @@ include('./includes/db.php');
 <?php
 include('./includes/header.php');
 ?>
-<?php
 
+<!-- PAGINATION PHP -->
+<?php
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = "";
+}
+if ($page == "" || $page == 1) {
+    $page_1 = 0;
+} else {
+    $page_1 = ($page * 5) - 5;
+}
+?>
+<?php
+if (isset($_POST['search']) or isset($_GET['data'])) {
+    if (isset($_POST['data'])) {
+        $data = $_POST['data'];
+    }
+    else if (isset($_GET['data'])) {
+        $data = $_GET['data'];
+    }
+    $sql_count = "SELECT * FROM posts WHERE (post_tags LIKE '%$data%' OR post_content LIKE '%$data%' OR post_title LIKE '%$data%') AND post_status = 'active'";
+    $result_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($result_count);
+    $count = ceil($count / 5);
+}
 ?>
 <!-- Navigation -->
 <?php
@@ -25,12 +50,15 @@ include('./includes/navigation.php');
             </h1>
 
             <?php
+            if (isset($_POST['search']) or isset($_GET['data'])) {
+                if (isset($_POST['data'])) {
+                    $data = $_POST['data'];
+                }
+                else if (isset($_GET['data'])) {
+                    $data = $_GET['data'];
+                }
 
-
-            if (isset($_POST['search'])) {
-                $data = $_POST['data'];
-
-                $sql_search = "SELECT * FROM posts WHERE post_tags LIKE '%$data%' AND post_status = 'active'";
+                $sql_search = "SELECT * FROM posts WHERE (post_tags LIKE '%$data%' OR post_content LIKE '%$data%' OR post_title LIKE '%$data%') AND post_status = 'active' LIMIT $page_1, 5";
                 $result_search = $conn->query($sql_search);
 
                 if ($result_search->num_rows > 0) {
@@ -83,14 +111,16 @@ include('./includes/navigation.php');
 
 
             <!-- Pager -->
-            <ul class="pager">
-                <li class="previous">
-                    <a href="#"><p>&larr; Older</p> </a>
-                </li>
-                <li class="next">
-                    <a href="#"><p>Newer &rarr;</p></a>
-                </li>
-            </ul>
+            <div>
+                <ul class="pagination justify-content-end">
+                    <!-- <li class="active"><a href="#">2</a></li> -->
+                    <?php
+                    for ($i = 1; $i <= $count; $i++) {
+                        echo " <li><a href='search.php?page=$i&data=$data'>$i</a></li>";
+                    }
+                    ?>
+                </ul>
+            </div>
 
         </div>
 

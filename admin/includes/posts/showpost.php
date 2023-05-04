@@ -61,6 +61,12 @@ if (isset($_GET['reset'])) {
     }
   }
 ?>
+
+<?php 
+
+
+
+?>
 <div class="row">
 
     <div class="col-md-12 ">
@@ -121,6 +127,10 @@ if (isset($_GET['reset'])) {
                             $result_cat = $conn->query($sql_cat);
                             $cat_title = $result_cat->fetch_array();
 
+                            $sql_com = "SELECT * FROM comments WHERE com_post_id = $row[post_id]";
+                            $result_com = $conn->query($sql_com);
+                            $count_com = mysqli_num_rows($result_com);
+
                             echo "<tr>
                                                 
                                                 <td><input type='checkbox' class='checkBoxes' name='checkBoxArray[]' value='{$row['post_id']}'></td>
@@ -141,7 +151,7 @@ if (isset($_GET['reset'])) {
                                                 </td>
                                                 <td width='530'>{$row['post_content']}</td>
                                                 <td>{$row['post_tags']}</td>
-                                                <td>{$row['post_comment']}</td>
+                                                <td>{$count_com}</td>
                                                 <td><a href='manageposts.php?reset={$row['post_id']}'>{$row['post_views']}</a>
                                                 </td>
                                                 <td class='text-right'>

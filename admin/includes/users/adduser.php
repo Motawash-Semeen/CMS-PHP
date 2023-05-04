@@ -6,7 +6,7 @@ if (isset($_POST['insert'])) {
     $lname = $_POST['lname'];
     $email = $_POST['email'];
     $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
     if (isset($_FILES['image'])) {
         $img_name = $_FILES['image']['name'];
         $temp_name = $_FILES['image']['tmp_name'];
@@ -27,6 +27,12 @@ if (isset($_POST['insert'])) {
 
     $role = $_POST['role'];
     $status = $_POST['status'];
+
+
+    $fname = mysqli_real_escape_string($conn, $fname);
+    $lname = mysqli_real_escape_string($conn, $lname);
+    $email = mysqli_real_escape_string($conn, $email);
+    $user_name = mysqli_real_escape_string($conn, $user_name);
 
     if ($fname == '' or $lname == '' or $email == '' or $user_name == '' or $password == '') {
         echo "<p>Please Enter Required Data!</p>";
