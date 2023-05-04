@@ -28,41 +28,20 @@ if (isset($_POST['update'])) {
     $lname = $_POST['last_name'];
     $email = $_POST['email'];
     $user_name = $_POST['username'];
-    $password = $_POST['password'];
-    // if (isset($_FILES['image'])) {
-    //     $img_name = $_FILES['image']['name'];
-    //     $temp_name = $_FILES['image']['tmp_name'];
-
-    //     $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-    //     $img_ex_lc = strtolower($img_ex);
-    //     $allowed_exc = array("jpg", "jpeg", "png");
-
-    //     if (in_array($img_ex_lc, $allowed_exc)) {
-    //         $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-    //         $img_upload_path = './images/' . $new_img_name;
-    //         move_uploaded_file($temp_name, $img_upload_path);
-    //     } else {
-    //         $em = "Only JPG, JPEG, PNG acceptable";
-    //     }
-    //     if ($img_name == '') {
-    //         $new_img_name = $_POST['old_image'];
-    //     }
-    // }
-
+    
     $fname = mysqli_real_escape_string($conn, $fname);
     $lname = mysqli_real_escape_string($conn, $lname);
     $email = mysqli_real_escape_string($conn, $email);
     $user_name = mysqli_real_escape_string($conn, $user_name);
-    $password = mysqli_real_escape_string($conn, $password);
 
 
-    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' or $password == '') {
+    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' ) {
         echo "<p>Please Enter Required Data!</p>";
         header("Location:  profile.php");
     } else {
 
 
-        $sql_up = "UPDATE `users` SET `username`='$user_name',`user_password`='$password',`user_fname`='$fname',`user_lname`='$lname',`user_email`='$email' WHERE `user_id` = '$id'";
+        $sql_up = "UPDATE `users` SET `username`='$user_name',`user_fname`='$fname',`user_lname`='$lname',`user_email`='$email' WHERE `user_id` = '$id'";
 
         $re_up = $conn->query($sql_up);
         $_SESSION['username'] = $user_name;
@@ -141,7 +120,16 @@ if (isset($_POST['upphoto'])) {
 
                     <div class="text-center">
                     <form class="form" action="" method="post" enctype="multipart/form-data">
-                        <img src="images/<?php echo $v['user_img'] ?>" class="avatar img-circle img-thumbnail" alt="avatar" width="150">
+                        <?php
+                        $img = $v['user_img'];
+if($img==null){
+    echo "<img src='https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg' class='avatar img-circle img-thumbnail' alt='avatar' width='150'>";
+}
+else{
+    echo " <img src='images/$img' class='avatar img-circle img-thumbnail' alt='avatar' width='150px' height='150px' style='object-fit: cover;height:150px;'>";
+}
+                        ?>
+                       
                         <h6>Upload a different photo...</h6>
                         <input type="file" name="image" class="text-center center-block file-upload">
                         <input type="hidden" name="old_image" class="text-center center-block file-upload" value="<?php echo $v['user_img'] ?>">
@@ -224,15 +212,15 @@ if (isset($_POST['upphoto'])) {
                                     </div>
                                 </div>
                                 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
 
                                     <div class="col-xs-6">
                                         <label for="password">
                                             <h4>Password</h4>
                                         </label>
-                                        <input type="text" class="form-control" name="password" id="password" placeholder="password" title="enter your password." value="<?php echo $v['user_password'] ?>">
+                                        <input type="text" class="form-control" name="password" id="password" placeholder="password" title="enter your password." value="<?php //echo $v['user_password'] ?>">
                                     </div>
-                                </div>
+                                </div> -->
                                 
                                 <div class="form-group">
                                     <div class="col-xs-12">

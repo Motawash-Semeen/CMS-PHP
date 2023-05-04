@@ -5,8 +5,8 @@ include('./includes/db.php');
 include('./includes/header.php');
 ?>
 <?php
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
+if(isset($_GET['cat_id'])){
+    $id = $_GET['cat_id'];
     $sql_cate = "SELECT * FROM categories WHERE cat_id = '$id'";
     $result_cate = $conn->query($sql_cate);
     $data = $result_cate->fetch_array();
@@ -33,28 +33,29 @@ include('./includes/navigation.php');
             <?php
 
 
-            if (isset($_GET['id'])) {
-                $cat_id = $_GET['id'];
+            if (isset($_GET['cat_id'])) {
+                $cat_id = $_GET['cat_id'];
 
-                $sql_search = "SELECT * FROM posts WHERE post_cat_id = '$cat_id'";
+                $sql_search = "SELECT * FROM posts WHERE post_cat_id = '$cat_id' AND post_status = 'active'";
                 $result_search = $conn->query($sql_search);
 
                 if ($result_search->num_rows > 0) {
                     while ($row = $result_search->fetch_array()) {
-                        $short_content = substr($row['post_content'], 0, 75) . '...';
+                        $short_content = substr($row['post_content'], 0, 200) . '...';
 
                         echo "<h2>
-            <a href='post.php?id={$row['post_id']}'>{$row['post_title']}</a>
+            <a href='post.php?p_id={$row['post_id']}'>{$row['post_title']}</a>
         </h2>
         <p class='lead'>
             by <a href='index.php'>{$row['post_author']}</a>
         </p>
         <p><span class='glyphicon glyphicon-time'></span> Posted on {$row['post_date']}</p>
         <hr>
-        <img class='img-responsive' src='./admin/images/{$row['post_img']}' alt='{$row['post_img']}'  width='900' height='300'>
+        <a href='post.php?p_id={$row['post_id']}'><img class='img-responsive' src='./admin/images/{$row['post_img']}' alt='{$row['post_img']}'  width='900' height='300'></a>
+        
         <hr>
         <p>{$short_content}</p>
-        <a class='btn btn-primary' href='post.php?id={$row['post_id']}'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
+        <a class='btn btn-primary' href='post.php?p_id={$row['post_id']}'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
 
         <hr>";
                     }
@@ -66,7 +67,7 @@ include('./includes/navigation.php');
             ?>
 
             <!-- First Blog Post -->
-            <h2>
+            <!-- <h2>
                 <a href="#">Blog Post Title</a>
             </h2>
             <p class="lead">
@@ -81,7 +82,7 @@ include('./includes/navigation.php');
                 officiis rerum.</p>
             <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-            <hr>
+            <hr> -->
 
 
 

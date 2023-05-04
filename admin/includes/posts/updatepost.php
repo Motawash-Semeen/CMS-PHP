@@ -128,7 +128,7 @@ if (isset($_POST['update'])) {
 
             <div class=" col-lg-12 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
                 <label for="w3review">Post Content:</label>
-                <textarea id="w3review" name="content" rows="4"><?php echo $v['post_content'] ?></textarea>
+                <textarea id="editor" name="content" rows="4"><?php echo $v['post_content'] ?></textarea>
             </div>
             <div class="col-lg-2 col-lg-offset-5">
                 <button type="submit" name="update" class="btn btn-primary mb-2">Submit</button>

@@ -53,7 +53,7 @@ $result_data = $conn->query($sql_data);
                                                                     <a href='managecate.php?id={$row['cat_id']}&do=edit' class='btn btn-link btn-warning btn-just-icon edit'>
                                                                     EDIT
                                                                     </a>
-                                                                    <a href='managecate.php?id={$row['cat_id']}&do=delete' class='btn btn-link btn-danger btn-just-icon remove'>
+                                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='managecate.php?id={$row['cat_id']}&do=delete' class='btn btn-link btn-danger btn-just-icon remove'>
                                                                     DELETE
                                                                     </a>
                                                                 </td>

@@ -6,6 +6,8 @@ if (isset($_GET['source']) and $_GET['source']=='edit') {
     $sql_edit = "SELECT * FROM users WHERE user_id = '$user_id'";
     $result_edit = $conn->query($sql_edit);
     $v = $result_edit->fetch_array();
+    $img = $v['user_img'];
+    $img_link = $img==null? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg': './images/'.$img;
 }
 ?>
 
@@ -19,7 +21,6 @@ if (isset($_POST['update'])) {
     $lname = $_POST['lname'];
     $email = $_POST['email'];
     $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
     if (isset($_FILES['image'])) {
         $img_name = $_FILES['image']['name'];
         $temp_name = $_FILES['image']['tmp_name'];
@@ -48,16 +49,15 @@ if (isset($_POST['update'])) {
     $lname = mysqli_real_escape_string($conn, $lname);
     $email = mysqli_real_escape_string($conn, $email);
     $user_name = mysqli_real_escape_string($conn, $user_name);
-    $password = mysqli_real_escape_string($conn, $password);
 
 
-    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' or $password == '') {
+    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' ) {
         echo "<p>Please Enter Required Data!</p>";
         header("Location:  manageuser.php");
     } else {
 
 
-        $sql_up = "UPDATE `users` SET `username`='$user_name',`user_password`='$password',`user_fname`='$fname',`user_lname`='$lname',`user_email`='$email',`user_img`='$new_img_name',`role`='$role',`user_status`='$status' WHERE `user_id` = '$id'";
+        $sql_up = "UPDATE `users` SET `username`='$user_name', `user_fname`='$fname',`user_lname`='$lname',`user_email`='$email',`user_img`='$new_img_name',`role`='$role',`user_status`='$status' WHERE `user_id` = '$id'";
 
         $re_up = $conn->query($sql_up);
         header("Location:  manageuser.php");
@@ -87,12 +87,12 @@ if (isset($_POST['update'])) {
                 <label for="inlineFormInput">User Name</label>
                 <input type="text" class="form-control mb-2" name="user_name" placeholder="User Name" value="<?php echo $v['username'] ?>">
             </div>
-            <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
+            <!-- <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
                 <label for="inlineFormInput">Password</label>
-                <input type="text" class="form-control mb-2" name="password" placeholder="Password" value="<?php echo $v['user_password'] ?>">
-            </div>
+                <input type="text" class="form-control mb-2" name="password" placeholder="Password" value="<?php //echo $v['user_password'] ?>">
+            </div> -->
             <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
-                <img src='images/<?php echo $v['user_img'] ?>' width='250'>
+                <img src='<?php echo $img_link ?>'class='avatar img-circle img-thumbnail' alt='avatar' width='150'>
             </div>
             <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
                 <label for="inlineFormInput">User Image</label>

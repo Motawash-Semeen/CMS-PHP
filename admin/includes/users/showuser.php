@@ -43,30 +43,35 @@ if (isset($_GET['status'])) {
                 if ($result_user->num_rows > 0) {
                     $i = 1;
                     while ($row = $result_user->fetch_array()) {
+                        $img = $row['user_img'];
+                        $img_link = $img==null? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg': './images/'.$img;
                         echo "<tr>
-                                                <td>{$i}</td>
-                                                <td>{$row['username']}</td>
-                                                <td>{$row['user_email']}</td>
-                                                <td>{$row['user_fname']}</td>
-                                                <td>{$row['user_lname']}</td>
-                                                <td>
-                                                <img src='./images/{$row['user_img']}' width='100'>
-                                                </td>
-                                                <td>{$row['role']}</td>
-                                                <td>
-                                                <a href='manageuser.php?id={$row['user_id']}&status={$row['user_status']}' class='btn btn-info'>
-                                                {$row['user_status']}
-                                                    </a>
-                                                </td>
-                                                <td class='text-right'>
-                                                    <a href='manageuser.php?id={$row['user_id']}&source=edit' class='btn btn-warning'>
-                                                                    EDIT
-                                                    </a>
-                                                    <a href='manageuser.php?id={$row['user_id']}&source=delete' class='btn btn-danger '>
-                                                                    DELETE
-                                                    </a>
-                                                </td>
-                                            </tr>";
+                                <td>{$i}</td>
+                                <td>{$row['username']}</td>
+                                <td>{$row['user_email']}</td>
+                                <td>{$row['user_fname']}</td>
+                                <td>{$row['user_lname']}</td>
+                                <td>
+                                
+                                <img src='{$img_link}' class='avatar img-circle img-thumbnail' alt='avatar' width='150'>
+                                
+                                
+                                </td>
+                                <td>{$row['role']}</td>
+                                <td>
+                                <a href='manageuser.php?id={$row['user_id']}&status={$row['user_status']}' class='btn btn-info'>
+                                {$row['user_status']}
+                                    </a>
+                                </td>
+                                <td class='text-right'>
+                                    <a href='manageuser.php?id={$row['user_id']}&source=edit' class='btn btn-warning'>
+                                                    EDIT
+                                    </a>
+                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='manageuser.php?id={$row['user_id']}&source=delete' class='btn btn-danger '>
+                                                    DELETE
+                                    </a>
+                                </td>
+                            </tr>";
                         $i++;
                     }
                 } else {
@@ -84,3 +89,6 @@ if (isset($_GET['status'])) {
 
 
 <!-- /.container-fluid -->
+<!-- 
+<img src='https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg' class='avatar img-circle img-thumbnail' alt='avatar' width='150'>
+                                <img src='./images/{$row['user_img']}' width='100'> -->

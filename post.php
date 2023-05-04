@@ -12,11 +12,17 @@ include('./includes/navigation.php');
 
 <?php
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+if (isset($_GET['p_id'])) {
+    $id = $_GET['p_id'];
     $sql = "SELECT * FROM posts WHERE post_id = '$id'";
     $result = $conn->query($sql);
     $v = $result->fetch_array();
+    $view = "UPDATE posts SET post_views = post_views+1 WHERE post_id = '$id'";
+    $conn->query($view);
+    $error_msg=null;
+}
+else{
+    header("Location: index.php");
 }
 
 ?>
@@ -73,31 +79,39 @@ if (isset($_GET['id'])) {
                 $name = mysqli_real_escape_string($conn, $name);
                 $email = mysqli_real_escape_string($conn, $email);
                 $content = mysqli_real_escape_string($conn, $content);
-
-                $sql_com = "INSERT INTO comments (`com_post_id`, `com_author`, `com_email`, `com_content`, `com_date`) VALUES ('$post_id','$name','$email','$content','$date')";
+                
+                if($name == '' and $email == '' and  $content == ''){
+                    $error_msg='Please Input all required fields!!';
+                }
+                else{
+                    $sql_com = "INSERT INTO comments (`com_post_id`, `com_author`, `com_email`, `com_content`, `com_date`) VALUES ('$post_id','$name','$email','$content','$date')";
                 $result_com = $conn->query($sql_com);
-
                 $com_count = "UPDATE `posts` SET `post_comment`= post_comment+1 WHERE `post_id`='$post_id'";
                 $conn->query($com_count);
-
+                $error_msg=null;
                 echo "<h2>Comments Sent For Approval!!</h2>";
+                }
+
             }
             ?>
 
             <!-- Comments Form -->
             <div class="well">
                 <h4>Leave a Comment:</h4>
+                <h3 style='color:red; text-align:center;'>
+                <?php echo $error_msg != null ?  $error_msg:'' ?>
+            </h3>
                 <form role="form" action="" method="post">
                     <div class="form-group">
-                        <label for="Author">Name</label>
+                        <label for="Author">Name *</label>
                         <input type="text" class="form-control" name="comment_author">
                     </div>
                     <div class="form-group">
-                        <label for="Email">Email</label>
+                        <label for="Email">Email *</label>
                         <input type="email" class="form-control" name="comment_email">
                     </div>
                     <div class="form-group">
-                        <label for="Author">Your Comments</label>
+                        <label for="Author">Your Comments *</label>
                         <textarea class="form-control" rows="3" name="content"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary" name="add">Submit</button>
@@ -110,7 +124,7 @@ if (isset($_GET['id'])) {
             <div class="well">
                 <h3>Total Comments: <?php echo $v['post_comment']?></h3>
             <?php 
-                $id = $_GET['id'];
+                $id = $_GET['p_id'];
                 $sql_com_view = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
                 $res_com_view = $conn->query($sql_com_view);
                 if( $res_com_view->num_rows>0){

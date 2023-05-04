@@ -30,7 +30,7 @@
             <a href="users:;" data-toggle="collapse" data-target="#demo3"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo3" class="collapse">
                 <li>
-                    <a href="manageuser.php">Add Users</a>
+                    <a href="manageuser.php?source=new">Add Users</a>
                 </li>
                 <li>
                     <a href="manageuser.php">Manage Users</a>

@@ -30,37 +30,40 @@ include('./includes/navigation.php');
             if (isset($_POST['search'])) {
                 $data = $_POST['data'];
 
-                $sql_search = "SELECT * FROM posts WHERE post_tags LIKE '%$data%'";
+                $sql_search = "SELECT * FROM posts WHERE post_tags LIKE '%$data%' AND post_status = 'active'";
                 $result_search = $conn->query($sql_search);
 
                 if ($result_search->num_rows > 0) {
                     while ($row = $result_search->fetch_array()) {
-                        $short_content = substr($row['post_content'], 0, 75) . '...';
+                        $short_content = substr($row['post_content'], 0, 200) . '...';
 
                         echo "<h2>
-            <a href='post.php?id={$row['post_id']}'>{$row['post_title']}</a>
+            <a href='post.php?p_id={$row['post_id']}'>{$row['post_title']}</a>
         </h2>
         <p class='lead'>
             by <a href='index.php'>{$row['post_author']}</a>
         </p>
         <p><span class='glyphicon glyphicon-time'></span> Posted on {$row['post_date']}</p>
         <hr>
-        <img class='img-responsive' src='./admin/images/{$row['post_img']}' alt='{$row['post_img']}'  width='900' height='300'>
+        <a href='post.php?p_id={$row['post_id']}'>
+                <img class='img-responsive' src='./admin/images/{$row['post_img']}' alt='{$row['post_img']}'  width='900' height='300'>
+
+        </a>
         <hr>
         <p>{$short_content}</p>
-        <a class='btn btn-primary' href='post.php?id={$row['post_id']}'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
+        <a class='btn btn-primary' href='post.php?p_id={$row['post_id']}'>Read More <span class='glyphicon glyphicon-chevron-right'></span></a>
 
         <hr>";
                     }
                 } else {
-                    echo "<h2>Not found</h2>";
+                    echo "<h3>Not found</h3>";
                 }
             }
 
             ?>
 
             <!-- First Blog Post -->
-            <h2>
+            <!-- <h2>
                 <a href="#">Blog Post Title</a>
             </h2>
             <p class="lead">
@@ -75,17 +78,17 @@ include('./includes/navigation.php');
                 officiis rerum.</p>
             <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
-            <hr>
+            <hr> -->
 
 
 
             <!-- Pager -->
             <ul class="pager">
                 <li class="previous">
-                    <a href="#">&larr; Older</a>
+                    <a href="#"><p>&larr; Older</p> </a>
                 </li>
                 <li class="next">
-                    <a href="#">Newer &rarr;</a>
+                    <a href="#"><p>Newer &rarr;</p></a>
                 </li>
             </ul>
 

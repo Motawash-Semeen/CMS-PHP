@@ -46,14 +46,15 @@ if (isset($_GET['status'])) {
                         $post_id = $row['com_post_id'];
                         $sql_post = "SELECT * FROM posts WHERE post_id = '$post_id'";
                         $result_post = $conn->query($sql_post);
-                        $post_title = $result_post->fetch_array();
+                        if ($result_post->num_rows > 0) {
+                            $post_title = $result_post->fetch_array();
 
-                        echo "<tr>
+                            echo "<tr>
                                                 <td>{$i}</td>
                                                 <td>{$row['com_author']}</td>
                                                 <td>{$row['com_email']}</td>
                                                 <td>{$row['com_content']}</td>
-                                                <td><a href='../post.php?id={$post_id}'>{$post_title['post_title']}</a>
+                                                <td><a href='../post.php?p_id={$post_id}'>{$post_title['post_title']}</a>
                                                 </td>
                                                 <td>{$row['com_date']}</td>
                                                 <td>
@@ -66,11 +67,16 @@ if (isset($_GET['status'])) {
                                                 <a href='managecomments.php?id={$row['com_id']}&do=edit' class='btn btn-warning' style='margin-bottom:5px;'>
                                                                     EDIT
                                                     </a>
-                                                    <a href='managecomments.php?id={$row['com_id']}&do=delete' class='btn btn-danger'>
+                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='managecomments.php?id={$row['com_id']}&do=delete' class='btn btn-danger'>
                                                                     DELETE
                                                     </a>
                                                 </td>
                                             </tr>";
+                        } else {
+                            $sql_del = "DELETE FROM comments WHERE com_post_id = '$post_id'";
+                            $conn->query($sql_del);
+                        }
+
                         $i++;
                     }
                 } else {

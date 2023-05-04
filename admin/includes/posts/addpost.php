@@ -29,6 +29,14 @@ if (isset($_POST['insert'])) {
     $status = $_POST['status'];
     $content = $_POST['content'];
 
+    $title = mysqli_real_escape_string($conn, $title);
+    $name = mysqli_real_escape_string($conn, $name);
+    $date = mysqli_real_escape_string($conn, $date);
+    $category = mysqli_real_escape_string($conn, $category);
+    $tags = mysqli_real_escape_string($conn, $tags);
+    $status = mysqli_real_escape_string($conn, $status);
+    $content = mysqli_real_escape_string($conn, $content);
+
     if ($title == '' or $name == '' or $date == '' or $category == '' or $content == '') {
         echo "<p>Please Enter Required Data!</p>";
         header("Location:  manageposts.php");
@@ -50,7 +58,7 @@ if (isset($_POST['insert'])) {
             </div>
             <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
                 <label for="inlineFormInput">Author Name</label>
-                <input type="text" class="form-control mb-2" name="author_name" placeholder="Author Name">
+                <input type="text" class="form-control mb-2" name="author_name" placeholder="Author Name" value="<?php  echo $_SESSION['username'] ?>" readonly>
             </div>
             <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
                 <label for="inlineFormInput">Date</label>
@@ -92,7 +100,7 @@ if (isset($_POST['insert'])) {
 
             <div class=" col-lg-12 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
                 <label for="w3review">Post Content:</label>
-                <textarea id="w3review" name="content" rows="4"></textarea>
+                <textarea id="editor" name="content" rows="4"></textarea>
             </div>
             <div class="col-lg-2 col-lg-offset-5">
                 <button type="submit" name="insert" class="btn btn-primary mb-2">Submit</button>

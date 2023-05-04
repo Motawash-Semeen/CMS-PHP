@@ -28,7 +28,7 @@
                         while($row = $result->fetch_array()){
                             if($i<4){
                               echo "<li>
-                           <a href='category.php?id={$row['cat_id']}'>{$row['cat_title']}</a>
+                           <a href='category.php?cat_id={$row['cat_id']}'>{$row['cat_title']}</a>
                        </li>";  
                             }
                             $i++;
@@ -46,9 +46,35 @@
                 <li>
                     <a href="admin/index.php">Admin</a>
                 </li>
+                <?php 
+                    if(isset($_SESSION['id']) and isset($_GET['p_id'])){
+                        $p_id = $_GET['p_id'];
+                        $role = $_SESSION['role'];
+                        if($role!='user'){
+                           echo "<li>
+                        <a href='admin/manageposts.php?id={$p_id}&source=edit'>Edit This Post</a>
+                    </li>"; 
+                        }
+                        
+                    }
+                ?>
                 <li>
                     <a href="#">Contact</a>
                 </li>
+                <?php 
+                    if(isset($_SESSION['id'])){
+                           echo "<li>
+                        <a href='includes/logout.php'>LogOut</a>
+                    </li>"; 
+                    }
+                ?>
+                <?php 
+                    if(!isset($_SESSION['id'])){
+                           echo "<li>
+                        <a href='registration.php'>Registration</a>
+                    </li>"; 
+                    }
+                ?>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
