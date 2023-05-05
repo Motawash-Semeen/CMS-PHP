@@ -15,53 +15,56 @@ if (isset($_GET['source']) and $_GET['source']=='edit') {
 
 <?php
 if (isset($_POST['update'])) {
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] == 'admin') {
+        $id = $_POST['id'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $email = $_POST['email'];
+        $user_name = $_POST['user_name'];
+        if (isset($_FILES['image'])) {
+            $img_name = $_FILES['image']['name'];
+            $temp_name = $_FILES['image']['tmp_name'];
 
-    $id = $_POST['id'];
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    $user_name = $_POST['user_name'];
-    if (isset($_FILES['image'])) {
-        $img_name = $_FILES['image']['name'];
-        $temp_name = $_FILES['image']['tmp_name'];
+            $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+            $img_ex_lc = strtolower($img_ex);
+            $allowed_exc = array("jpg", "jpeg", "png");
 
-        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-        $img_ex_lc = strtolower($img_ex);
-        $allowed_exc = array("jpg", "jpeg", "png");
+            if (in_array($img_ex_lc, $allowed_exc)) {
+                $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+                $img_upload_path = './images/' . $new_img_name;
+                move_uploaded_file($temp_name, $img_upload_path);
+            } else {
+                $em = "Only JPG, JPEG, PNG acceptable";
+            }
+            if ($img_name == '') {
+                $new_img_name = $_POST['old_image'];
+            }
+        }
 
-        if (in_array($img_ex_lc, $allowed_exc)) {
-            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = './images/' . $new_img_name;
-            move_uploaded_file($temp_name, $img_upload_path);
+
+        $role = $_POST['role'];
+        $status = $_POST['status'];
+
+        $fname = mysqli_real_escape_string($conn, $fname);
+        $lname = mysqli_real_escape_string($conn, $lname);
+        $email = mysqli_real_escape_string($conn, $email);
+        $user_name = mysqli_real_escape_string($conn, $user_name);
+
+
+        if ($fname == '' or $lname == '' or $email == '' or $user_name == '') {
+            echo "<p>Please Enter Required Data!</p>";
+            header("Location:  manageuser.php");
         } else {
-            $em = "Only JPG, JPEG, PNG acceptable";
-        }
-        if ($img_name == '') {
-            $new_img_name = $_POST['old_image'];
+
+
+            $sql_up = "UPDATE `users` SET `username`='$user_name', `user_fname`='$fname',`user_lname`='$lname',`user_email`='$email',`user_img`='$new_img_name',`role`='$role',`user_status`='$status' WHERE `user_id` = '$id'";
+
+            $re_up = $conn->query($sql_up);
+            header("Location:  manageuser.php");
         }
     }
-
-
-    $role = $_POST['role'];
-    $status = $_POST['status'];
-
-    $fname = mysqli_real_escape_string($conn, $fname);
-    $lname = mysqli_real_escape_string($conn, $lname);
-    $email = mysqli_real_escape_string($conn, $email);
-    $user_name = mysqli_real_escape_string($conn, $user_name);
-
-
-    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' ) {
-        echo "<p>Please Enter Required Data!</p>";
-        header("Location:  manageuser.php");
-    } else {
-
-
-        $sql_up = "UPDATE `users` SET `username`='$user_name', `user_fname`='$fname',`user_lname`='$lname',`user_email`='$email',`user_img`='$new_img_name',`role`='$role',`user_status`='$status' WHERE `user_id` = '$id'";
-
-        $re_up = $conn->query($sql_up);
-        header("Location:  manageuser.php");
-    }
+}
 }
 ?>
 

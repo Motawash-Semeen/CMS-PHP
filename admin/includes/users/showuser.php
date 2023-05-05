@@ -1,6 +1,8 @@
 <?php
 if (isset($_GET['status'])) {
-    $id = $_GET['id'];
+    if(isset($_SESSION['role'])){
+        if($_SESSION['role']=='admin'){
+            $id = $_GET['id'];
     if ($_GET['status'] == 'approved') {
         $satus = 'disapproved';
     } else {
@@ -9,6 +11,9 @@ if (isset($_GET['status'])) {
     $sql_status = "UPDATE users SET user_status = '$satus' WHERE user_id = '$id'";
     $result_status = $conn->query($sql_status);
     header("Location: manageuser.php");
+        }
+    }
+    
 }
 ?>
 <div class="row">

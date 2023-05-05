@@ -1,6 +1,7 @@
 <?php
-include('../includes/db.php');
 session_start();
+include('../includes/db.php');
+
 ?>
 <?php
 ob_start();
@@ -37,7 +38,7 @@ if (($email && $id) == null) {
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <link href="css/loader.css" rel="stylesheet">
+    <!-- <link href="css/loader.css" rel="stylesheet"> -->
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

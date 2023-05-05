@@ -1,21 +1,23 @@
-<!-- PHP & MYSQL CODE FOR DELETE A ROW -->
 <?php
 include "../includes/db.php";
 ?>
-<?php 
-if(isset($_GET['source']) and $_GET['source']=='delete'){
-    $id = $_GET['id'];
-    $sql_del = "DELETE FROM users WHERE user_id = '$id'";
-    $conn->query($sql_del);
-    header("Location: manageuser.php");
-}
-?>
-
 
 <?php
 include('includes/header.php');
 ?>
+<?php
 
+if (isset($_GET['source']) and $_GET['source'] == 'delete') {
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 'admin') {
+            $id = $_GET['id'];
+            $sql_del = "DELETE FROM users WHERE user_id = '$id'";
+            $conn->query($sql_del);
+            header("Location: manageuser.php");
+        }
+    }
+}
+?>
 
 <div id="wrapper">
 
@@ -50,29 +52,28 @@ include('includes/header.php');
             <?php
 
 
-             if(isset($_GET['source'])){
-                    $source = $_GET['source'];
-                }
-                else{
-                    $source = ""; 
-                }
-                switch($source){
-                    case 'new':
-                        include "./includes/users/adduser.php";
+            if (isset($_GET['source'])) {
+                $source = $_GET['source'];
+            } else {
+                $source = "";
+            }
+            switch ($source) {
+                case 'new':
+                    include "./includes/users/adduser.php";
                     break;
-                    case 'edit':
-                        include "./includes/users/updateuser.php";
+                case 'edit':
+                    include "./includes/users/updateuser.php";
                     break;
-                    case 'delete':
-                        
+                case 'delete':
+
                     break;
-                    default:
+                default:
                     include "./includes/users/showuser.php";
                     break;
-                }
+            }
             ?>
 
-            
+
 
 
         </div>

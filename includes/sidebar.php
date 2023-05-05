@@ -17,13 +17,15 @@
     </div>
     <!-- LOGIN Well -->
     <?php
-    if(isset($_SESSION['email']) and isset($_SESSION['id'])){
-
-    }
-    else{
+    if (isset($_SESSION['email']) and isset($_SESSION['id'])) {
+        echo "<div class='well' style='display:flex; flex-direction: column;'>
+<h4 style='text-align:center; margin-bottom:20px;'>Logged in as {$_SESSION['username']}</h4>
+<a class='btn btn-info' href='includes/logout.php' style='text-align:center; margin:auto;'>LogOut</a>
+</div>";
+    } else {
         include "./includes/login.php";
     }
-    
+
     ?>
     <!-- Blog Categories Well -->
     <div class="well">

@@ -20,18 +20,32 @@
 
                 <?php 
                 
-                    $sql = "SELECT * FROM categories";
+                    $sql = "SELECT * FROM categories LIMIT 0,5";
                     $result = $conn->query($sql);
 
                     if($result->num_rows>0){
-                        $i=0;
                         while($row = $result->fetch_array()){
-                            if($i<4){
-                              echo "<li>
+
+                            $static = 'registration.php';
+                       $category_class = '';
+                       $static_class = '';
+
+                       $pageName = basename($_SERVER['PHP_SELF']);
+
+
+                       if(isset($_GET['cat_id']) and $_GET['cat_id'] == $row['cat_id']){
+                            $category_class='active';
+                       }
+                       else if($pageName == $static_class){
+                        $static_class = 'active';
+                       }
+
+
+                              echo "<li class='{$category_class}'>
                            <a href='category.php?cat_id={$row['cat_id']}'>{$row['cat_title']}</a>
                        </li>";  
-                            }
-                            $i++;
+                              
+                       
                         }
                     }
                     else{
@@ -59,18 +73,18 @@
                     }
                 ?>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="contact.php">Contact</a>
                 </li>
                 <?php 
-                    if(isset($_SESSION['id'])){
-                           echo "<li>
-                        <a href='includes/logout.php'>LogOut</a>
-                    </li>"; 
-                    }
+                    // if(isset($_SESSION['id'])){
+                    //        echo "<li>
+                    //     <a href='includes/logout.php'>LogOut</a>
+                    // </li>"; 
+                    // }
                 ?>
                 <?php 
                     if(!isset($_SESSION['id'])){
-                           echo "<li>
+                           echo "<li class='{$static_class}'>
                         <a href='registration.php'>Registration</a>
                     </li>"; 
                     }
