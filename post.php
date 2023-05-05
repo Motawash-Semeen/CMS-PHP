@@ -17,10 +17,8 @@ if (isset($_GET['p_id'])) {
     $sql = "SELECT * FROM posts WHERE post_id = '$id'";
     $result = $conn->query($sql);
     $v = $result->fetch_array();
-    // $view = "UPDATE posts SET post_views = post_views+1 WHERE post_id = '$id'";
-    // $conn->query($view);
-    //$count_com = 0;
-    $error_msg = 0;
+    $view = "UPDATE posts SET post_views = post_views+1 WHERE post_id = '$id'";
+    $conn->query($view);
 
     $com_count = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
     $res_count = $conn->query($com_count);
