@@ -2,46 +2,50 @@
 
 <?php
 if (isset($_POST['insert'])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    $user_name = $_POST['user_name'];
-    $password = md5($_POST['password']);
-    if (isset($_FILES['image'])) {
-        $img_name = $_FILES['image']['name'];
-        $temp_name = $_FILES['image']['tmp_name'];
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 'admin') {
+            $fname = $_POST['fname'];
+            $lname = $_POST['lname'];
+            $email = $_POST['email'];
+            $user_name = $_POST['user_name'];
+            $password = md5($_POST['password']);
+            if (isset($_FILES['image'])) {
+                $img_name = $_FILES['image']['name'];
+                $temp_name = $_FILES['image']['tmp_name'];
 
-        $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-        $img_ex_lc = strtolower($img_ex);
-        $allowed_exc = array("jpg", "jpeg", "png");
+                $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+                $img_ex_lc = strtolower($img_ex);
+                $allowed_exc = array("jpg", "jpeg", "png");
 
-        if (in_array($img_ex_lc, $allowed_exc)) {
-            $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = './images/' . $new_img_name;
-            move_uploaded_file($temp_name, $img_upload_path);
-        } else {
-            $em = "Only JPG, JPEG, PNG acceptable";
-            header("Location: manageuser.php");
+                if (in_array($img_ex_lc, $allowed_exc)) {
+                    $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
+                    $img_upload_path = './images/' . $new_img_name;
+                    move_uploaded_file($temp_name, $img_upload_path);
+                } else {
+                    $em = "Only JPG, JPEG, PNG acceptable";
+                    header("Location: manageuser.php");
+                }
+            }
+
+            $role = $_POST['role'];
+            $status = $_POST['status'];
+
+
+            $fname = mysqli_real_escape_string($conn, $fname);
+            $lname = mysqli_real_escape_string($conn, $lname);
+            $email = mysqli_real_escape_string($conn, $email);
+            $user_name = mysqli_real_escape_string($conn, $user_name);
+
+            if ($fname == '' or $lname == '' or $email == '' or $user_name == '' or $password == '') {
+                echo "<p>Please Enter Required Data!</p>";
+                header("Location:  manageuser.php");
+            } else {
+                $sql_in = "INSERT INTO users (`username`, `user_password`, `user_fname`, `user_lname`, `user_email`, `user_img`, `role`, `user_status`) VALUES ('$user_name','$password','$fname','$lname','$email','$new_img_name','$role','$status')";
+
+                $re_in = $conn->query($sql_in);
+                header("Location:  manageuser.php");
+            }
         }
-    }
-
-    $role = $_POST['role'];
-    $status = $_POST['status'];
-
-
-    $fname = mysqli_real_escape_string($conn, $fname);
-    $lname = mysqli_real_escape_string($conn, $lname);
-    $email = mysqli_real_escape_string($conn, $email);
-    $user_name = mysqli_real_escape_string($conn, $user_name);
-
-    if ($fname == '' or $lname == '' or $email == '' or $user_name == '' or $password == '') {
-        echo "<p>Please Enter Required Data!</p>";
-        header("Location:  manageuser.php");
-    } else {
-        $sql_in = "INSERT INTO users (`username`, `user_password`, `user_fname`, `user_lname`, `user_email`, `user_img`, `role`, `user_status`) VALUES ('$user_name','$password','$fname','$lname','$email','$new_img_name','$role','$status')";
-
-        $re_in = $conn->query($sql_in);
-        header("Location:  manageuser.php");
     }
 }
 ?>

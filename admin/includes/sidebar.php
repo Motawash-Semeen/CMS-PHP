@@ -26,17 +26,26 @@
                 </li>
             </ul>
         </li>
-        <li>
-            <a href="users:;" data-toggle="collapse" data-target="#demo3"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
-            <ul id="demo3" class="collapse">
-                <li>
-                    <a href="manageuser.php?source=new">Add Users</a>
-                </li>
-                <li>
-                    <a href="manageuser.php">Manage Users</a>
-                </li>
-            </ul>
-        </li>
+        
+            <?php
+            if(isset($_SESSION['role'])){
+                if($_SESSION['role']=='admin'){
+                    echo "<li>
+                    <a href='users:;' data-toggle='collapse' data-target='#demo3'><i class='fa fa-fw fa-arrows-v'></i> Users <i class='fa fa-fw fa-caret-down'></i></a>
+                    <ul id='demo3' class='collapse'>
+                        <li>
+                            <a href='manageuser.php?source=new'>Add Users</a>
+                        </li>
+                        <li>
+                            <a href='manageuser.php'>Manage Users</a>
+                        </li>
+                    </ul>
+                </li>";
+                }
+            }
+        
+        ?>
+        
         <li>
             <a href="managecomments.php"><i class="fa fa-fw fa-desktop"></i> Comments </a>
         </li>

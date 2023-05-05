@@ -57,20 +57,26 @@ if (isset($_GET['source']) and $_GET['source'] == 'delete') {
             } else {
                 $source = "";
             }
-            switch ($source) {
-                case 'new':
-                    include "./includes/users/adduser.php";
-                    break;
-                case 'edit':
-                    include "./includes/users/updateuser.php";
-                    break;
-                case 'delete':
+            if (isset($_SESSION['role'])) {
+                if ($_SESSION['role'] == 'admin') {
+                    switch ($source) {
+                        case 'new':
+                            include "./includes/users/adduser.php";
+                            break;
+                        case 'edit':
+                            include "./includes/users/updateuser.php";
+                            break;
+                        case 'delete':
 
-                    break;
-                default:
-                    include "./includes/users/showuser.php";
-                    break;
+                            break;
+                        default:
+                            include "./includes/users/showuser.php";
+                            break;
+                    }
+                }
             }
+
+
             ?>
 
 

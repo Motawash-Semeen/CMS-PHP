@@ -1,19 +1,18 @@
 <?php
 if (isset($_GET['status'])) {
-    if(isset($_SESSION['role'])){
-        if($_SESSION['role']=='admin'){
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 'admin') {
             $id = $_GET['id'];
-    if ($_GET['status'] == 'approved') {
-        $satus = 'disapproved';
-    } else {
-        $satus = 'approved';
-    }
-    $sql_status = "UPDATE users SET user_status = '$satus' WHERE user_id = '$id'";
-    $result_status = $conn->query($sql_status);
-    header("Location: manageuser.php");
+            if ($_GET['status'] == 'approved') {
+                $satus = 'disapproved';
+            } else {
+                $satus = 'approved';
+            }
+            $sql_status = "UPDATE users SET user_status = '$satus' WHERE user_id = '$id'";
+            $result_status = $conn->query($sql_status);
+            header("Location: manageuser.php");
         }
     }
-    
 }
 ?>
 <div class="row">
@@ -43,14 +42,16 @@ if (isset($_GET['status'])) {
                 <!-- PHP & MYSQL CODE FOR SHOWING ALL DATA -->
 
                 <?php
-                $sql_user = "SELECT * FROM users";
-                $result_user = $conn->query($sql_user);
-                if ($result_user->num_rows > 0) {
-                    $i = 1;
-                    while ($row = $result_user->fetch_array()) {
-                        $img = $row['user_img'];
-                        $img_link = $img==null? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg': './images/'.$img;
-                        echo "<tr>
+                if (isset($_SESSION['role'])) {
+                    if ($_SESSION['role'] == 'admin') {
+                        $sql_user = "SELECT * FROM users";
+                        $result_user = $conn->query($sql_user);
+                        if ($result_user->num_rows > 0) {
+                            $i = 1;
+                            while ($row = $result_user->fetch_array()) {
+                                $img = $row['user_img'];
+                                $img_link = $img == null ? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg' : './images/' . $img;
+                                echo "<tr>
                                 <td>{$i}</td>
                                 <td>{$row['username']}</td>
                                 <td>{$row['user_email']}</td>
@@ -77,12 +78,14 @@ if (isset($_GET['status'])) {
                                     </a>
                                 </td>
                             </tr>";
-                        $i++;
-                    }
-                } else {
-                    echo "<tr>
+                                $i++;
+                            }
+                        } else {
+                            echo "<tr>
                                 <td colspan='11' style='text-align: center'>No Data Found</td>
                                 </tr>";
+                        }
+                    }
                 }
                 ?>
 

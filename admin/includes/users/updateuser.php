@@ -3,11 +3,15 @@
 <?php
 if (isset($_GET['source']) and $_GET['source']=='edit') {
     $user_id = $_GET['id'];
-    $sql_edit = "SELECT * FROM users WHERE user_id = '$user_id'";
-    $result_edit = $conn->query($sql_edit);
-    $v = $result_edit->fetch_array();
-    $img = $v['user_img'];
-    $img_link = $img==null? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg': './images/'.$img;
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 'admin') {
+            $sql_edit = "SELECT * FROM users WHERE user_id = '$user_id'";
+            $result_edit = $conn->query($sql_edit);
+            $v = $result_edit->fetch_array();
+            $img = $v['user_img'];
+            $img_link = $img==null ? 'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg' : './images/'.$img;
+        }
+    }
 }
 ?>
 
