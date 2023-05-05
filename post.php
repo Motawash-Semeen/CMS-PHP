@@ -23,10 +23,35 @@ if (isset($_GET['p_id'])) {
     $com_count = "SELECT * FROM comments WHERE com_post_id = '$id' AND com_status = 'approved'";
     $res_count = $conn->query($com_count);
     $count_com = mysqli_num_rows($res_count);
-
+    $error_msg = null;
     $links = "authorposts.php?author={$v['post_author']}&p_id={$v['post_id']}";
 } else {
     header("Location: index.php");
+}
+
+?>
+
+<?php
+if (isset($_GET['like'])) {
+    $post_id = $_GET['p_id'];
+    $u_id = $_SESSION['id'];
+
+    $sql = "SELECT * FROM likes WHERE user_id = $u_id AND post_id = $post_id";
+    $res = $conn->query($sql);
+    if ($res->num_rows > 0) {
+        $sql_del = "DELETE FROM likes  WHERE user_id = $u_id AND post_id = $post_id";
+        $conn->query($sql_del);
+
+        $sql_up = "UPDATE posts SET post_likes = post_likes-1 WHERE post_id = $post_id";
+        $conn->query($sql_up);
+        header("Location: post.php?p_id=$post_id");
+    } else {
+        $sql_up = "INSERT INTO `likes`(`user_id`, `post_id`) VALUES ('$u_id','$post_id')";
+        $conn->query($sql_up);
+        $sql_up = "UPDATE posts SET post_likes = post_likes+1 WHERE post_id = $post_id";
+        $conn->query($sql_up);
+        header("Location: post.php?p_id=$post_id");
+    }
 }
 
 ?>
@@ -67,6 +92,49 @@ if (isset($_GET['p_id'])) {
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
 
+            <hr>
+
+            <?php
+            if (isset($_SESSION['role'])) {
+                $id = $v['post_id'];
+                $u_id = $_SESSION['id'];
+                $sql = "SELECT * FROM likes WHERE user_id = $u_id AND post_id = $id";
+                $res = $conn->query($sql);
+                if ($res->num_rows > 0) {
+                    $data = 'Disike';
+                } else {
+                    $data = 'Like';
+                }
+            ?>
+                <div class="row">
+                    <p class="pull-right"><a class="like" href="post.php?p_id=<?php echo $id; ?>&like"><span class="glyphicon glyphicon-thumbs-up" data-placement="top"></span>
+                            <?php echo $data; ?>
+                        </a></p>
+                </div>
+
+            <?php  } else { ?>
+
+                <div class="row">
+                    <p class="pull-right login-to-post">You need to <a href="#login">Login</a> to like </p>
+                </div>
+            <?php }
+            ?>
+
+            <?php
+            if (isset($_GET['p_id'])) {
+                $id = $_GET['p_id'];
+                $sql_count = "SELECT * FROM `posts` WHERE post_id = $id";
+                $res_count = $conn->query($sql_count);
+                $rows = $res_count->fetch_array();
+                $likes = $rows['post_likes'];
+            }
+
+            ?>
+            <div class="row">
+                <p class="pull-right likes">Like: <?php echo $likes ?></p>
+            </div>
+
+            <div class="clearfix"></div>
             <hr>
 
             <!-- Blog Comments -->
@@ -163,3 +231,7 @@ if (isset($_GET['p_id'])) {
     <?php
     include('./includes/footer.php');
     ?>
+
+    <script>
+
+    </script>

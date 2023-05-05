@@ -25,7 +25,7 @@ if (isset($_POST['login'])) {
     }
 }
 ?>
-<div class="well">
+<div class="well" id="login">
     <h4>LogIn</h4>
     <?php
     if (isset($_SESSION['msg'])) {
@@ -39,6 +39,9 @@ if (isset($_POST['login'])) {
         </div>
         <div class="form-group">
             <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group">
+            <a href='forgot.php?got'>Forget Password?</a>
         </div>
         <div class="form-group">
             <input type="submit" name="login" class="form-control btn btn-info" value="LogIn">
