@@ -44,7 +44,7 @@ $count = ceil($count / 5);
             </h1>
 
             <?php
-            $sql_post = "SELECT * FROM posts WHERE post_status = 'active' LIMIT $page_1, 5";
+            $sql_post = "SELECT * FROM posts WHERE post_status = 'active' ORDER BY post_date DESC LIMIT $page_1, 5";
             $result_post = $conn->query($sql_post);
 
 

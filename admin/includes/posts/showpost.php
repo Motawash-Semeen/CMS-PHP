@@ -117,7 +117,7 @@ if (isset($_GET['reset'])) {
                     <!-- PHP & MYSQL CODE FOR SHOWING ALL DATA -->
 
                     <?php
-                    $sql_post = "SELECT * FROM posts";
+                    $sql_post = "SELECT * FROM posts ORDER BY post_id DESC";
                     $result_post = $conn->query($sql_post);
                     if ($result_post->num_rows > 0) {
                         $i = 1;
