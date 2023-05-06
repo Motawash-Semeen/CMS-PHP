@@ -39,8 +39,8 @@ $count = ceil($count / 5);
         <div class="col-md-8">
 
             <h1 class="page-header">
-                MS Blog Home Page
-                <small>Secondary Text</small>
+                MS Blog
+                <small>Home Page</small>
             </h1>
 
             <?php
