@@ -9,9 +9,28 @@ if (isset($_GET['author'])) {
     $name = $_GET['author'];
     $sql_author = "SELECT * FROM posts WHERE post_author LIKE '$name'";
     $result_author = $conn->query($sql_author);
+    $count = mysqli_num_rows($result_author);
+    $count = ceil($count / 5);
 }
 
 ?>
+
+
+
+<!-- PAGINATION PHP -->
+<?php
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = "";
+}
+if ($page == "" || $page == 1) {
+    $page_1 = 0;
+} else {
+    $page_1 = ($page * 5) - 5;
+}
+?>
+
 <!-- Navigation -->
 <?php
 include('./includes/navigation.php');
@@ -25,15 +44,17 @@ include('./includes/navigation.php');
         <div class="col-md-8">
 
             <h1 class="page-header">
-                <?php echo $name ; ?>
+                <?php echo $name; ?>
                 <small>Secondary Text</small>
             </h1>
 
             <?php
+            $name = $_GET['author'];
+            $sql = "SELECT * FROM posts WHERE post_author LIKE '$name' ORDER BY post_date DESC LIMIT $page_1, 5";
+            $result = $conn->query($sql);
 
-
-            if ($result_author->num_rows > 0) {
-                while ($row = $result_author->fetch_array()) {
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_array()) {
                     if ($row['post_status'] == 'active') {
                         $short_content = substr($row['post_content'], 0, 200) . '...';
 
@@ -81,14 +102,17 @@ include('./includes/navigation.php');
 
 
             <!-- Pager -->
-            <ul class="pager">
-                <li class="previous">
-                    <a href="#">&larr; Older</a>
-                </li>
-                <li class="next">
-                    <a href="#">Newer &rarr;</a>
-                </li>
-            </ul>
+            <!-- Pager -->
+            <div>
+                <ul class="pagination justify-content-end">
+                    <!-- <li class="active"><a href="#">2</a></li> -->
+                    <?php
+                    for ($i = 1; $i <= $count; $i++) {
+                        echo " <li><a href='index.php?page=$i'>$i</a></li>";
+                    }
+                    ?>
+                </ul>
+            </div>
 
         </div>
 

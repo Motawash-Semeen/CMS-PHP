@@ -39,7 +39,7 @@ $count = ceil($count / 5);
         <div class="col-md-8">
 
             <h1 class="page-header">
-                Page Heading
+                MS Blog Home Page
                 <small>Secondary Text</small>
             </h1>
 
