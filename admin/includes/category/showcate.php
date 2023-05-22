@@ -10,7 +10,7 @@ $result_data = $conn->query($sql_data);
     <div class="col-md-12">
         <div style="text-align:right; margin:auto;">
             <a href='managecate.php?do=new' class='btn btn-link btn-warning btn-just-icon edit' style="padding: 6px 12px; background-color:deepskyblue; border-radius: 5px; color:white; margin-bottom: 20px;">
-                Add New Post
+                Add New Category
             </a>
         </div>
         <div class="card">
