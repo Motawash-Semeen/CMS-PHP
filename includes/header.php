@@ -23,6 +23,7 @@ ob_start();
     <!-- Custom CSS -->
     <link href="css/blog-home.css" rel="stylesheet">
 
+
 </head>
 
 <body>
