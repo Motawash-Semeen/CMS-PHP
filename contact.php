@@ -54,13 +54,15 @@ if(isset($_POST['submit'])){
             </div>
         </div> <!-- /.col-xs-12 -->
     </div> <!-- /.row -->
+<hr>
+<?php
+include('./includes/footer.php');
+?>
+
 </div> <!-- /.container -->
 
 
 
-<hr>
 
 
-<?php
-include('./includes/footer.php');
-?>
+
